@@ -3,7 +3,11 @@ To help you visualize the captured session and get intuition of what the data lo
 
 Attached folder next to this readme file is a [Unity Engine](https://unity3d.com/) project. The following tutorial should help you setup the necessary environment in order to use the motion capture session player.
 
-If you have any problem or question, please feel free to email me at [chenchen.bme@gmail.com](mailto:chenchen.bme@gmail.com)
+If you have any problem or question, please feel free to email me at [chenchen.bme@gmail.com](mailto:chenchen.bme@gmail.com).
+
+This project and the Vive position capture code are both open source on GitHub. If you are interested, please find the link below:
+- [Vive Motion Capture](https://github.com/chenchen2015/ViveMotionCapture/)
+- [Vive Motion Capture Player](https://github.com/chenchen2015/ViveMotionCapturePlayer/)
 
 ## Quick Start
 #### Install Unity Engine
