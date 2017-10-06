@@ -46,6 +46,9 @@ public class SessionPlayback : MonoBehaviour
 	#region Playback visual related parameters
 
 	private readonly Vector3 pbObjScale = new Vector3 (0.025f, 0.05f, 0.025f);
+	private readonly Vector3 cameraOffset = new Vector3 (-0f, 0f, -2f);
+	private Vector3 meanPosition;
+	private Camera mainCamera;
 
 	#endregion
 
@@ -57,6 +60,8 @@ public class SessionPlayback : MonoBehaviour
 
 	void Start ()
 	{
+		mainCamera = Camera.main;
+
 		if (!JsonSessionReader.isSessionLoaded) {
 			JsonSessionReader.LoadJson ();
 		}
@@ -125,6 +130,7 @@ public class SessionPlayback : MonoBehaviour
 	{
 		pbGameObj = new GameObject[JsonSessionReader.nDevices];
 		pbTransform = new Transform[JsonSessionReader.nDevices];
+		meanPosition = Vector3.zero;
 
 		// Instantiate parent
 		parentGameObj = new GameObject ("Tracked Devices (Your captured devices are here)");
@@ -157,11 +163,16 @@ public class SessionPlayback : MonoBehaviour
 				return;
 			}
 
+			meanPosition = Vector3.zero;
 			// Loop through all devices
 			for (int i = 0; i < JsonSessionReader.nDevices; i++) {
 				pbTransform [i].position = SerializedVec3.ToVec3 (JsonSessionReader.deviceData [i].position [currentFrame]);
 				pbTransform [i].rotation = SerializedVec3.ToQuat (JsonSessionReader.deviceData [i].rotation [currentFrame]);
+
+				meanPosition += pbTransform [i].position;
 			}
+
+			mainCamera.transform.position = meanPosition / JsonSessionReader.nDevices + cameraOffset;
 
 			if (currentFrame % 100 == 0) {
 				Debug.Log (String.Format ("Current replay time {0:F3} seconds", currentPlaybackTime));
